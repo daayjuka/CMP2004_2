@@ -12,6 +12,9 @@ public class ChatMessageEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    @ColumnInfo(name = "session_id")
+    public  String sessionId;
+
     @ColumnInfo(name = "user_id") // New field for Firebase User ID
     public String userId;
 
@@ -25,8 +28,9 @@ public class ChatMessageEntity {
     public long timestamp;
 
     // Constructor updated to include userId
-    public ChatMessageEntity(String userId, String messageText, String sender, long timestamp) {
+    public ChatMessageEntity(String userId, String sessionId ,String messageText, String sender, long timestamp) {
         this.userId = userId;
+        this.sessionId = sessionId;
         this.messageText = messageText;
         this.sender = sender;
         this.timestamp = timestamp;

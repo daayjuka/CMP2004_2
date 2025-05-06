@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.yourcompany.cmp2004_2.db.AppDatabase;
 import com.yourcompany.cmp2004_2.db.ChatMessageDao;
 import com.yourcompany.cmp2004_2.db.ChatMessageEntity;
+import com.yourcompany.cmp2004_2.db.ChatSessionEntity;
 
 import java.util.ArrayList;
 // import java.util.Collections; // Not strictly needed now
@@ -66,6 +67,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private String currentUserId;
     private FirebaseAuth mAuth; // For getting current user if not passed
+    private String currentSessionId;
 
 
     // Define safety settings
@@ -83,6 +85,17 @@ public class ChatActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Intent intent = getIntent();
+        currentSessionId = intent.getStringExtra("SESSION_ID");
+
+        if (currentSessionId == null || currentSessionId.isEmpty()) {
+            Log.e("ChatActivity", "Session ID not provided. Finishing activity.");
+            Toast.makeText(this, "Error: Chat session ID missing.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+        Log.d("ChatActivity", "Current User ID: " + currentUserId + ", Session ID: " + currentSessionId);
 
         if (currentUser == null) {
             // This shouldn't happen if MainActivity correctly redirects, but as a safeguard:
@@ -221,8 +234,8 @@ public class ChatActivity extends AppCompatActivity {
     // Renamed method to reflect it saves to DB too
     void addToChatAndSave(String messageText, String sentBy) {
 
-        if (currentUserId == null || currentUserId.isEmpty()) {
-            Log.e("ChatActivity", "Cannot save message, currentUserId is null or empty.");
+        if (currentUserId == null || currentUserId.isEmpty() || currentSessionId == null || currentSessionId.isEmpty()) {
+            Log.e("ChatActivity", "Cannot save message, userId or sessionId missing.");
             // Optionally show a toast to the user that the message won't be saved
             Toast.makeText(this, "Error: Cannot save message. User not identified.", Toast.LENGTH_LONG).show();
             // Still add to UI for immediate feedback, but it won't persist
@@ -245,14 +258,15 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        // 2. Save to Database in the background
-        ChatMessageEntity entity = new ChatMessageEntity(currentUserId ,messageText, sentBy, System.currentTimeMillis());
+        long currentTimestamp = System.currentTimeMillis();
+        ChatMessageEntity entity = new ChatMessageEntity(currentUserId, currentSessionId, messageText, sentBy, currentTimestamp);
         // Use ListenableFuture for DB operations to run them off the main thread.
         ListenableFuture<Void> insertFuture = chatMessageDao.insertMessage(entity);
         Futures.addCallback(insertFuture, new FutureCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
                 Log.d("ChatActivity", "Message saved to DB: " + messageText.substring(0, Math.min(messageText.length(), 30)) + "...");
+                updateSessionInfo(messageText, currentTimestamp);
             }
             @Override
             public void onFailure(@NonNull Throwable t) {
@@ -282,8 +296,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadMessagesFromDbAndSetupChat() {
 
-        if (currentUserId == null || currentUserId.isEmpty()) {
-            Log.e("ChatActivity", "Cannot load messages, currentUserId is null or empty.");
+        if (currentUserId == null || currentUserId.isEmpty() || currentSessionId == null || currentSessionId.isEmpty()) {
+            Log.e("ChatActivity", "Cannot load messages, userId or sessionId is missing.");
             // Handle this error: maybe show a message and disable chat.
             // For now, attempt to start chat with empty history.
             if (geminiModelBase != null) {
@@ -293,7 +307,7 @@ public class ChatActivity extends AppCompatActivity {
             return;
         }
 
-        ListenableFuture<List<ChatMessageEntity>> future = chatMessageDao.getAllMessagesForUser(currentUserId);
+        ListenableFuture<List<ChatMessageEntity>> future = chatMessageDao.getAllMessagesForSession(currentUserId,currentSessionId);
         Futures.addCallback(future, new FutureCallback<List<ChatMessageEntity>>() {
             @Override
             public void onSuccess(List<ChatMessageEntity> dbMessages) {
@@ -347,5 +361,46 @@ public class ChatActivity extends AppCompatActivity {
         }, mainExecutor);
     }
 
+    private void updateSessionInfo(String lastMessage, long timestamp) {
+        if (currentUserId == null || currentSessionId == null) return;
+
+
+        ListenableFuture<ChatSessionEntity> getSessionFuture = chatMessageDao.getChatSession(currentUserId, currentSessionId);
+        Futures.addCallback(getSessionFuture, new FutureCallback<ChatSessionEntity>() {
+            @Override
+            public void onSuccess(ChatSessionEntity existingSession) {
+                long createdTs = (existingSession != null) ? existingSession.createdTimestamp : timestamp; // Preserve original creation time
+
+                ChatSessionEntity sessionToUpdate = new ChatSessionEntity(
+                        currentSessionId,
+                        currentUserId,
+                        createdTs, // Use original creation timestamp
+                        lastMessage,
+                        timestamp // New last message timestamp
+                );
+                ListenableFuture<Void> updateSessionFuture = chatMessageDao.insertChatSession(sessionToUpdate);
+                Futures.addCallback(updateSessionFuture, new FutureCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void v) { Log.d("ChatActivity", "Session info updated: " + currentSessionId); }
+                    @Override
+                    public void onFailure(@NonNull Throwable t) { Log.e("ChatActivity", "Failed to update session info", t); }
+                }, databaseWriteExecutor);
+            }
+            @Override
+            public void onFailure(@NonNull Throwable t) {
+                Log.e("ChatActivity", "Failed to get existing session info before update", t);
+                ChatSessionEntity sessionToUpdate = new ChatSessionEntity(
+                        currentSessionId,
+                        currentUserId,
+                        timestamp,
+                        lastMessage,
+                        timestamp
+                );
+                chatMessageDao.insertChatSession(sessionToUpdate);
+            }
+        }, databaseWriteExecutor);
+
+
+    }
 
 }

@@ -1,43 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/chat"
-        android:layout_marginTop="24dp"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
-        android:text="New Chat"
-        android:background="@drawable/rounded_corner"
-        />
+    <TextView
+        android:id="@+id/user_details_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Logged in as:"
+        android:textSize="16sp"/>
 
     <TextView
-
         android:id="@+id/user_details"
-        android:layout_width="172dp"
-        android:layout_height="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_details_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="Test Deneme"
-        android:textSize="18dp"
+        android:text="user@example.com"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button
-        android:layout_marginTop="24dp"
         android:id="@+id/logout"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:text="Logout"
-        android:background="@drawable/rounded_corner"/>
+        android:layout_margin="16dp"
+        android:text="Logout" />
 
+    <TextView
+        android:id="@+id/sessions_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Chat Sessions:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/user_details"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sessions_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/sessions_title"
+        android:layout_above="@+id/start_new_chat_button"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <Button
+        android:id="@+id/start_new_chat_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="Start New Chat Session" />
 
 </RelativeLayout>
