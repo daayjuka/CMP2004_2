@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-// Gemini API Imports
+
 import com.google.ai.client.generativeai.GenerativeModel;
-import com.google.ai.client.generativeai.java.ChatFutures; // For chat session
+import com.google.ai.client.generativeai.java.ChatFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.BlockThreshold;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
@@ -28,7 +28,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
-// Room Database Imports
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,11 +38,11 @@ import com.yourcompany.cmp2004_2.db.ChatMessageEntity;
 import com.yourcompany.cmp2004_2.db.ChatSessionEntity;
 
 import java.util.ArrayList;
-// import java.util.Collections; // Not strictly needed now
+// import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService; // For database executor
-import java.util.concurrent.Executors;    // For database executor
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -55,22 +55,21 @@ public class ChatActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ImageButton backButton;
 
-    // --- Gemini AI Setup ---
-    private GenerativeModel geminiModelBase; // For starting chat sessions
-    private ChatFutures chatSession;         // To maintain conversation context
+    //Gemini Setup
+    private GenerativeModel geminiModelBase;
+    private ChatFutures chatSession;
     private Executor mainExecutor;
 
     private AppDatabase db;
     private ChatMessageDao chatMessageDao;
-    private ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor(); // For background DB operations
+    private ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
 
 
     private String currentUserId;
-    private FirebaseAuth mAuth; // For getting current user if not passed
+    private FirebaseAuth mAuth;
     private String currentSessionId;
 
 
-    // Define safety settings
     private final List<SafetySetting> safetySettings = List.of(
             new SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.MEDIUM_AND_ABOVE),
             new SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
@@ -83,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        mAuth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         Intent intent = getIntent();

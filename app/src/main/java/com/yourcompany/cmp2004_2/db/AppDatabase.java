@@ -18,12 +18,12 @@ public abstract class AppDatabase extends RoomDatabase {
     //static final Migration MIGRATION_2_3 = new Migration(2, 3) {
     //    @Override
     //    public void migrate(SupportSQLiteDatabase database) {
-//
+    //
     //        database.execSQL("ALTER TABLE chat_messages ADD COLUMN session_id TEXT");
-//
+    //
     //        database.execSQL("CREATE INDEX IF NOT EXISTS `index_chat_messages_user_id_session_id` ON `chat_messages` (`user_id`, `session_id`)");
-//
-//
+    //
+    //
     //        database.execSQL("CREATE TABLE IF NOT EXISTS `chat_sessions` (`session_id` TEXT NOT NULL, `user_id` TEXT NOT NULL, `created_timestamp` INTEGER NOT NULL, `last_message_snippet` TEXT, `last_message_timestamp` INTEGER NOT NULL, PRIMARY KEY(`session_id`))");
     //        database.execSQL("CREATE INDEX IF NOT EXISTS `index_chat_sessions_user_id` ON `chat_sessions` (`user_id`)");
     //    }
