@@ -19,4 +19,5 @@
     <string name="login_failed">"Login failed"</string>
     <string name="write_here">Write Here</string>
     <string name="welcome_to_appname">Welcome to AppName\nTry it now!</string>
+    <string name="default_web_client_id">719331565905-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com</string>
 </resources>

@@ -1,70 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:background="@drawable/login_background">
 
-    <TextView
-        android:id="@+id/user_details_header"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Logged in as:"
-        android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/user_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_manage"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Settings"/>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/user_details"
+        android:id="@+id/recent_chats_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_details_header"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:text="user@example.com"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:text="Logout" />
-
-    <TextView
-        android:id="@+id/sessions_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Chat Sessions:"
-        android:textSize="18sp"
+        android:text="Recent Chats"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@id/user_details"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"/>
+        android:textColor="@android:color/white"
+        android:layout_below="@id/top_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sessions_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/sessions_title"
+        android:layout_below="@id/recent_chats_title"
         android:layout_above="@+id/start_new_chat_button"
-        android:padding="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_marginTop="16dp"
+        android:padding="8dp"/>
 
     <Button
         android:id="@+id/start_new_chat_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Start New Chat"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:text="Start New Chat Session" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>

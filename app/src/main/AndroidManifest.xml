@@ -41,6 +41,11 @@
             tools:ignore="Instantiatable">
 
         </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/Theme.Material3.Dark.NoActionBar"
+            android:exported="false" />
     </application>
 
 </manifest>

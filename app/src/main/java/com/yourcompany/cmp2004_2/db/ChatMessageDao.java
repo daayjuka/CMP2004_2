@@ -39,4 +39,10 @@ public interface ChatMessageDao {
     // Optional: Delete a specific session info (and its messages separately if needed)
     @Query("DELETE FROM chat_sessions WHERE session_id = :sessionId AND user_id = :userId")
     ListenableFuture<Void> deleteChatSessionInfo(String userId, String sessionId);
+
+    @Query("DELETE FROM chat_messages WHERE user_id = :userId")
+    ListenableFuture<Void> deleteAllMessagesForUser(String userId);
+
+    @Query("DELETE FROM chat_sessions WHERE user_id = :userId")
+    ListenableFuture<Void> deleteAllSessionsForUser(String userId);
 }

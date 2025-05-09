@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,6 @@ import java.util.concurrent.Executor;
 public class MainActivity extends AppCompatActivity implements ChatSessionAdapter.OnSessionClickListener {
 
     FirebaseAuth auth;
-    Button logoutButton;
     TextView userDetailsTextView;
     FirebaseUser currentUser;
     Button startNewChatButton;
@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
-        logoutButton = findViewById(R.id.logout);
         userDetailsTextView = findViewById(R.id.user_details);
         startNewChatButton = findViewById(R.id.start_new_chat_button);
         sessionsRecyclerView = findViewById(R.id.sessions_recycler_view);
+        ImageButton settingsButton = findViewById(R.id.settings_button);
 
         currentUser = auth.getCurrentUser();
         mainExecutor = ContextCompat.getMainExecutor(this);
@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
             loadChatSessions(); // Load existing sessions
         }
 
-        logoutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            redirectToLogin();
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
         });
 
         startNewChatButton.setOnClickListener(v -> {

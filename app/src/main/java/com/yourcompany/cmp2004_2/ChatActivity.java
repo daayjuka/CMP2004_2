@@ -148,14 +148,8 @@ public class ChatActivity extends AppCompatActivity {
             callGeminiApi(question);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        backButton.setOnClickListener(v -> {
+            finish(); // This will close the activity and return to the previous one
         });
     }
 
@@ -164,7 +158,9 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("ChatActivity", "Attempting to use API Key: '" + apiKey + "'"); // Check Logcat Debug messages
         if (apiKey == null || apiKey.isEmpty() || apiKey.equals("YOUR_API_KEY_HERE")) {
             Log.e("ChatActivity", "API Key is missing or invalid in BuildConfig!");
-            // ... rest of the error handling ...
+            Toast.makeText(this, "Error: API Key not configured", Toast.LENGTH_LONG).show();
+            sendButton.setEnabled(false);
+            editText.setEnabled(false);
             return;
         }
         try {
@@ -174,7 +170,9 @@ public class ChatActivity extends AppCompatActivity {
                     null, // GenerationConfig
                     safetySettings
             );
-            Log.i("ChatActivity", "Base Gemini Model Initialized");
+            // Initialize chat session immediately after model creation
+            chatSession = ChatFutures.from(geminiModelBase.startChat(new ArrayList<>()));
+            Log.i("ChatActivity", "Base Gemini Model and Chat Session Initialized");
         } catch (Exception e) {
             Log.e("ChatActivity", "CRITICAL: Failed to initialize GenerativeModel!", e);
             Toast.makeText(this, "Failed to initialize AI model.", Toast.LENGTH_LONG).show();
@@ -294,19 +292,13 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void loadMessagesFromDbAndSetupChat() {
-
         if (currentUserId == null || currentUserId.isEmpty() || currentSessionId == null || currentSessionId.isEmpty()) {
             Log.e("ChatActivity", "Cannot load messages, userId or sessionId is missing.");
-            // Handle this error: maybe show a message and disable chat.
-            // For now, attempt to start chat with empty history.
-            if (geminiModelBase != null) {
-                chatSession = ChatFutures.from(geminiModelBase.startChat(new ArrayList<>()));
-                Log.w("ChatActivity", "Gemini chat session started with empty history (no user ID).");
-            }
+            Toast.makeText(this, "Error: User or session information missing", Toast.LENGTH_LONG).show();
             return;
         }
 
-        ListenableFuture<List<ChatMessageEntity>> future = chatMessageDao.getAllMessagesForSession(currentUserId,currentSessionId);
+        ListenableFuture<List<ChatMessageEntity>> future = chatMessageDao.getAllMessagesForSession(currentUserId, currentSessionId);
         Futures.addCallback(future, new FutureCallback<List<ChatMessageEntity>>() {
             @Override
             public void onSuccess(List<ChatMessageEntity> dbMessages) {
@@ -319,32 +311,39 @@ public class ChatActivity extends AppCompatActivity {
                         // Build Gemini history
                         String role = Message.SENT_BY_ME.equals(entity.sender) ? "user" : "model";
                         Content.Builder contentBuilder = new Content.Builder();
-                        contentBuilder.setRole(role); // Set the role first
-                        contentBuilder.addText(entity.messageText); // Then add the text part
+                        contentBuilder.setRole(role);
+                        contentBuilder.addText(entity.messageText);
                         geminiHistory.add(contentBuilder.build());
                     }
                     // Update UI
-                    messageList.clear();
-                    messageList.addAll(loadedUiMessages);
-                    messageAdapter.notifyDataSetChanged();
-                    recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
-                    if (!messageList.isEmpty()) {
-                        recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
-                        welcomeTextView.setVisibility(View.GONE);
-                    } else {
-                        welcomeTextView.setVisibility(View.VISIBLE);
-                    }
+                    runOnUiThread(() -> {
+                        messageList.clear();
+                        messageList.addAll(loadedUiMessages);
+                        messageAdapter.notifyDataSetChanged();
+                        if (!messageList.isEmpty()) {
+                            recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
+                            welcomeTextView.setVisibility(View.GONE);
+                        } else {
+                            welcomeTextView.setVisibility(View.VISIBLE);
+                        }
+                    });
                 } else {
                     Log.d("ChatActivity", "No messages in DB.");
                     runOnUiThread(() -> welcomeTextView.setVisibility(View.VISIBLE));
                 }
 
-                // Initialize Gemini chat session with loaded history
+                // Initialize or update Gemini chat session with loaded history
                 if (geminiModelBase != null) {
-                    chatSession = ChatFutures.from(geminiModelBase.startChat(geminiHistory));
-                    Log.i("ChatActivity", "Gemini chat session started with " + geminiHistory.size() + " history items.");
+                    try {
+                        chatSession = ChatFutures.from(geminiModelBase.startChat(geminiHistory));
+                        Log.i("ChatActivity", "Gemini chat session initialized with " + geminiHistory.size() + " history items.");
+                    } catch (Exception e) {
+                        Log.e("ChatActivity", "Failed to initialize chat session with history", e);
+                        Toast.makeText(ChatActivity.this, "Error initializing chat session", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Log.e("ChatActivity", "Cannot start chat session, geminiModelBase is null");
+                    Toast.makeText(ChatActivity.this, "Error: AI model not initialized", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -352,9 +351,15 @@ public class ChatActivity extends AppCompatActivity {
             public void onFailure(@NonNull Throwable t) {
                 Log.e("ChatActivity", "Error loading messages from DB for user " + currentUserId, t);
                 Toast.makeText(ChatActivity.this, "Failed to load chat history", Toast.LENGTH_SHORT).show();
+                // Try to initialize with empty history if DB load fails
                 if (geminiModelBase != null) {
-                    chatSession = ChatFutures.from(geminiModelBase.startChat(new ArrayList<>()));
-                    Log.w("ChatActivity", "Gemini chat session started with empty history due to DB load failure (user: " + currentUserId + ").");
+                    try {
+                        chatSession = ChatFutures.from(geminiModelBase.startChat(new ArrayList<>()));
+                        Log.w("ChatActivity", "Gemini chat session initialized with empty history due to DB load failure");
+                    } catch (Exception e) {
+                        Log.e("ChatActivity", "Failed to initialize chat session after DB failure", e);
+                        Toast.makeText(ChatActivity.this, "Error initializing chat session", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }, mainExecutor);

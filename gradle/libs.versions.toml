@@ -12,6 +12,7 @@ kotlinxCoroutinesAndroid = "1.7.3"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+playServicesAuth = "20.8.1"
 roomRuntime = "2.7.1"
 roomRuntimeVersion = "2.6.1"
 runtimeAndroid = "1.8.0"
@@ -28,6 +29,10 @@ legacySupportV4 = "1.0.0"
 recyclerview = "1.4.0"
 firebaseCrashlyticsBuildtools = "3.0.3"
 compiler = "3.2.0-alpha11"
+googleSignIn = "20.7.0"
+credentials = "1.5.0"
+credentialsPlayServicesAuth = "1.5.0"
+googleid = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,6 +63,10 @@ androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
+google-signin = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleSignIn" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

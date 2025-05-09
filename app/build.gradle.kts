@@ -67,7 +67,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.signin)
     implementation(libs.androidx.room.runtime.v261)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.room.guava)
