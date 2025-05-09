@@ -25,14 +25,14 @@
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_manage"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Settings"/>
+            android:contentDescription="@string/settings"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/recent_chats_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recent Chats"
+        android:text="@string/recent_chats"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_below="@id/top_bar"
@@ -52,7 +52,7 @@
         android:id="@+id/start_new_chat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start New Chat"
+        android:text="@string/start_new_chat"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"/>

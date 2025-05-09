@@ -71,7 +71,7 @@
             android:layout_marginTop="16sp"
             android:backgroundTint="#4AC5FF"
             android:padding="12dp"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="#352828"
             android:textSize="20sp" />
 
@@ -81,7 +81,7 @@
             android:gravity="center"
             android:layout_marginTop="20dp"
             android:id="@+id/loginNow"
-            android:text="Already have an account? Login"
+            android:text="@string/already_have_an_account_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -1,7 +1,12 @@
 package com.yourcompany.cmp2004_2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +15,10 @@ import android.widget.Toast;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,10 +34,11 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID; // For generating session IDs
 import java.util.concurrent.Executor;
 
-public class MainActivity extends AppCompatActivity implements ChatSessionAdapter.OnSessionClickListener {
+public class MainActivity extends BaseActivity implements ChatSessionAdapter.OnSessionClickListener {
 
     FirebaseAuth auth;
     TextView userDetailsTextView;
@@ -45,7 +53,18 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
     AppDatabase db;
     ChatMessageDao chatMessageDao;
     Executor mainExecutor;
+    private static final int SETTINGS_ACTIVITY_REQUEST_CODE = 101;
+    private String currentLanguage; // Store the language MainActivity was created with
 
+
+    private BroadcastReceiver languageChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("ACTION_LANGUAGE_CHANGED".equals(intent.getAction())) {
+                recreate();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +93,19 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
         }
 
         settingsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(intent, SETTINGS_ACTIVITY_REQUEST_CODE);
         });
 
         startNewChatButton.setOnClickListener(v -> {
             startNewChat();
         });
+
+        currentLanguage = getResources().getConfiguration().getLocales().get(0).getLanguage();
+        Log.d("MainActivity", "onCreate - current language: " + currentLanguage);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(languageChangeReceiver,
+                new IntentFilter("ACTION_LANGUAGE_CHANGED"));
     }
 
     private void setupRecyclerView() {
@@ -109,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
             }
         }, mainExecutor);
     }
+
+
 
     private void startNewChat() {
         if (currentUser == null) {
@@ -166,11 +193,53 @@ public class MainActivity extends AppCompatActivity implements ChatSessionAdapte
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SETTINGS_ACTIVITY_REQUEST_CODE) {
+            // Check if settings actually changed the language
+            // This is simpler: just check current applied language vs stored one
+            String newLanguage = getResources().getConfiguration().getLocales().get(0).getLanguage();
+            Log.d("MainActivity", "onActivityResult - new language: " + newLanguage + ", old: " + currentLanguage);
+
+            if (!newLanguage.equals(currentLanguage)) {
+                Log.d("MainActivity", "Language changed, recreating MainActivity.");
+                currentLanguage = newLanguage; // Update stored language
+                recreate(); // Recreate MainActivity
+            }
+            // You could also check the 'languageChanged' extra from the resultIntent
+            // if (resultCode == Activity.RESULT_OK && data != null && data.getBooleanExtra("languageChanged", false)) {
+            //     recreate();
+            // }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        super.onResume();
+        // Check if language has changed since MainActivity was last active
+        // This is an alternative to onActivityResult if SettingsActivity is not started for result
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String savedLang = prefs.getString(MyApplication.PREF_LANGUAGE, Locale.getDefault().getLanguage());
+
+        if (currentLanguage != null && !currentLanguage.equals(savedLang)) {
+            Log.d("MainActivity", "onResume - language mismatch, recreating. Current: " + currentLanguage + " Saved: " + savedLang);
+            // currentLanguage = savedLang; // Update before recreate or it will be set in next onCreate
+            recreate();
+        } else if (currentLanguage == null) {
+            // This case can happen if onResume is called before onCreate fully initializes currentLanguage
+            // For safety, update currentLanguage here after BaseActivity has done its job.
+            currentLanguage = getResources().getConfiguration().getLocales().get(0).getLanguage();
+        }
+
         // Refresh sessions if user might have created one and returned
         if (currentUser != null) {
             loadChatSessions();
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(languageChangeReceiver);
     }
 }

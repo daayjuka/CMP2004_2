@@ -12,7 +12,7 @@
         android:src="@android:drawable/ic_menu_revert"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginBottom="24dp"
-        android:contentDescription="Back"/>
+        android:contentDescription="@string/back"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Language (Turkish/English)"
+            android:text="@string/language_turkish_english"
             android:textSize="16sp"
             android:textColor="@android:color/white"/>
 
@@ -46,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dark Theme"
+            android:text="@string/dark_theme"
             android:textSize="16sp"
             android:textColor="@android:color/white"/>
 
@@ -60,13 +60,13 @@
         android:id="@+id/delete_all_chats_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete All Chats"
+        android:text="@string/delete_all_chats"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:text="@string/logout" />
 
 </LinearLayout> 

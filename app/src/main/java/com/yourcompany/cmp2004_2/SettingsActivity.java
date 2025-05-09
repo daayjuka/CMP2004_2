@@ -1,5 +1,6 @@
 package com.yourcompany.cmp2004_2;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate; // Import this
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 // import androidx.preference.PreferenceManagerFix; // If using androidx.preference
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +23,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     private Switch languageSwitch; // Consider androidx.appcompat.widget.SwitchCompat
     private Switch themeSwitch;    // Consider androidx.appcompat.widget.SwitchCompat
     private Button deleteAllChatsButton;
@@ -61,7 +63,12 @@ public class SettingsActivity extends AppCompatActivity {
         setupThemeSwitch();
         setupDeleteAllChatsButton();
         setupLogoutButton();
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("languageChanged", true); // Or some other flag
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        } );
     }
 
     private void applySavedThemePreference() {
@@ -88,6 +95,9 @@ public class SettingsActivity extends AppCompatActivity {
         android.content.res.Configuration config = new android.content.res.Configuration(getResources().getConfiguration());
         config.setLocale(locale);
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        Intent intent = new Intent("ACTION_LANGUAGE_CHANGED");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         recreate(); // Recreate activity to apply new language AND current theme
     }
 
@@ -142,6 +152,16 @@ public class SettingsActivity extends AppCompatActivity {
             finish();
         });
     }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("languageChanged", true);
+        setResult(Activity.RESULT_OK, resultIntent);
+        super.onBackPressed(); // This will call finish()
+    }
+
 
     @Override
     protected void onDestroy() {
