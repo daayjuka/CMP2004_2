@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/login_background">
+    android:padding="16dp">
 
     <ImageButton
         android:id="@+id/back_button"
-        android:layout_width="48dp"
+        android:layout_width="48dp" 
         android:layout_height="48dp"
         android:src="@android:drawable/ic_menu_revert"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -62,14 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete All Chats"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#FF0000"/>
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:backgroundTint="#FF0000"/>
+        android:text="Logout" />
 
 </LinearLayout> 

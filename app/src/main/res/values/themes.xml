@@ -1,9 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.CMP2004_2" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Cmp2004_2" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <!-- ... other primary colors ... -->
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <!-- ... other secondary colors ... -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@drawable/login_background</item> <!-- Your light background color -->
+        <item name="android:textColor">@color/md_theme_light_onPrimary</item> <!-- Default text color for light theme -->
+        <item name="buttonStyle">@style/MyButtonStyle.Light</item> <!-- Custom button style for light theme -->
+        <!-- Add other attributes like colorSurface, colorOnSurface, etc. -->
     </style>
 
-    <style name="Theme.CMP2004_2" parent="Base.Theme.CMP2004_2" />
+    <style name="Theme.Cmp2004_2" parent="Base.Theme.Cmp2004_2" />
+
+    <!-- Optional: Custom Button Style for Light Theme -->
+    <style name="MyButtonStyle.Light" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/my_light_button_background</item>
+        <item name="android:textColor">@color/my_light_button_text</item>
+    </style>
 </resources>

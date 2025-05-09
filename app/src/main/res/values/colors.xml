@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Your Material Design 3 baseline colors (examples) -->
+    <color name="md_theme_light_primary">#6750A4</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_secondary">#625B71</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <!-- ... other MD3 light colors ... -->
+
+    <color name="md_theme_dark_primary">#D0BCFF</color>
+    <color name="md_theme_dark_onPrimary">#381E72</color>
+    <color name="md_theme_dark_secondary">#CCC2DC</color>
+    <color name="md_theme_dark_onSecondary">#332D41</color>
+    <!-- ... other MD3 dark colors ... -->
+
+    <!-- Custom background/text/button colors -->
+    <color name="my_light_background">#FFFEF7</color>
+    <color name="my_light_text_color">#1C1B1F</color>
+    <color name="my_light_button_background">#E8DEF8</color> <!-- Light button background -->
+    <color name="my_light_button_text">#1D192B</color>      <!-- Light button text -->
+
+
+    <color name="my_dark_background">#1C1B1F</color>   <!-- Example: A dark grey -->
+    <color name="my_dark_text_color">#E6E1E5</color>    <!-- Light text for dark background -->
+    <color name="my_dark_button_background">#4A4458</color> <!-- Darker button background -->
+    <color name="my_dark_button_text">#E8DEF8</color>      <!-- Lighter button text for dark theme -->
+
 </resources>

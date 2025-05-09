@@ -1,7 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.CMP2004_2" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Base application theme in dark mode. -->
+    <style name="Base.Theme.Cmp2004_2" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="background">@drawable/dark_thema</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <!-- ... other primary colors for dark ... -->
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <!-- ... other secondary colors for dark ... -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item> <!-- Or a specific dark status bar color -->
+
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowBackground">@drawable/dark_thema</item> <!-- Your dark background color -->
+        <item name="android:textColor">#C2E69A</item> <!-- Default text color for dark theme -->
+        <item name="buttonStyle">@style/MyButtonStyle.Dark</item> <!-- Custom button style for dark theme -->
+        <!-- Add other attributes like colorSurface, colorOnSurface, etc. -->
+    </style>
+
+    <!-- Theme.Cmp2004_2 in -night will inherit from Base.Theme.Cmp2004_2 in -night -->
+
+    <!-- Optional: Custom Button Style for Dark Theme -->
+    <style name="MyButtonStyle.Dark" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/my_dark_button_background</item>
+        <item name="android:textColor">@color/my_dark_button_text</item>
     </style>
 </resources>
