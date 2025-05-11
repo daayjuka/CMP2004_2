@@ -2,30 +2,54 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Cmp2004_2" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <!-- ... other primary colors ... -->
+        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorOnPrimary">@color/light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/light_secondary</item>
+        <item name="colorOnSecondary">@color/light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/light_tertiary</item>
+        <item name="colorOnTertiary">@color/light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/light_onTertiaryContainer</item>
+        <item name="colorError">@color/light_error</item>
+        <item name="colorErrorContainer">@color/light_errorContainer</item>
+        <item name="colorOnError">@color/light_onError</item>
+        <item name="colorOnErrorContainer">@color/light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/light_background</item> <!-- Used by some components -->
+        <item name="colorOnBackground">@color/light_onBackground</item>
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorOnSurface">@color/light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/light_inversePrimary</item>
 
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/md_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
-        <!-- ... other secondary colors ... -->
+        <!-- Specific Overrides for your app -->
+        <!-- Using android:windowBackground for the overall screen background -->
+        <item name="android:windowBackground">@drawable/login_background</item>
 
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Default text color for text views not on specific surfaces -->
+        <!-- This will apply to TextViews directly on the windowBackground -->
+        <!-- Ensure this has good contrast with your login_background gradient -->
+        <item name="android:textColor">@color/dark_inverseSurface</item>
+        <item name="android:textColorHint">@color/my_light_text_color_secondary</item>
 
-        <!-- Customize your light theme here. -->
-        <item name="android:windowBackground">@drawable/login_background</item> <!-- Your light background color -->
-        <item name="android:textColor">@color/md_theme_light_onPrimary</item> <!-- Default text color for light theme -->
-        <item name="buttonStyle">@style/MyButtonStyle.Light</item> <!-- Custom button style for light theme -->
-        <!-- Add other attributes like colorSurface, colorOnSurface, etc. -->
+        <!-- Status bar color - can be transparent to show gradient, or a solid color -->
+        <!-- <item name="android:statusBarColor">@android:color/transparent</item> -->
+        <!-- <item name="android:windowLightStatusBar" tools:targetApi="m">true</item> --> <!-- Icons light/dark -->
+        <item name="android:statusBarColor">@color/light_primary</item> <!-- Or a color matching your gradient top -->
+
+        <!-- Optional: If you need specific button styles beyond Material 3 defaults -->
+        <!-- <item name="materialButtonStyle">@style/MyButtonStyle.Light</item> -->
+        <!-- For other Material components like cards, dialogs, etc., they will use -->
+        <!-- colorSurface, colorOnSurface, etc. Define those carefully. -->
     </style>
 
     <style name="Theme.Cmp2004_2" parent="Base.Theme.Cmp2004_2" />
 
-    <!-- Optional: Custom Button Style for Light Theme -->
-    <style name="MyButtonStyle.Light" parent="Widget.Material3.Button">
-        <item name="android:backgroundTint">@color/my_light_button_background</item>
-        <item name="android:textColor">@color/my_light_button_text</item>
-    </style>
 </resources>

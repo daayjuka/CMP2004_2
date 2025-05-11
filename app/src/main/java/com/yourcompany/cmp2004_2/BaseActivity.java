@@ -24,24 +24,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         Configuration config = new Configuration(context.getResources().getConfiguration());
         config.setLocale(locale); // Update configuration with the new locale
-        // config.setLayoutDirection(locale); // Also set layout direction if supporting RTL
+        config.setLayoutDirection(locale);
 
         return context.createConfigurationContext(config); // Create a new context with this configuration
     }
 
-    // Optional: You might also want to apply language in onCreate if attachBaseContext isn't enough for some cases
-    // or if you're not using Application class for initial setup.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // If not using Application class or want to be extra sure:
-        // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // String langCode = prefs.getString(MyApplication.PREF_LANGUAGE, Locale.getDefault().getLanguage());
-        // updateActivityLocale(langCode); // A method similar to updateBaseContextLocale but for current activity
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String langCode = prefs.getString(MyApplication.PREF_LANGUAGE, Locale.getDefault().getLanguage());
+        updateActivityLocale(langCode); // A method similar to updateBaseContextLocale but for current activity
     }
 
-    // Helper if you need to update the current activity's resources after it's created
-    // (though attachBaseContext should generally handle it)
     protected void updateActivityLocale(String langCode) {
         Locale locale = new Locale(langCode);
         Locale.setDefault(locale);

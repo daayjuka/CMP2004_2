@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">CMP2004_2</string>
+    <string name="top_register">kayıt ol</string>
+    <string name="register">Kayıt Ol</string>
+    <string name="username">Kullanıcı Adı</string>
+    <string name="email">E-posta</string>
+    <string name="password">Şifre</string>
+    <string name="todo">YAPILACAK</string>
+    <string name="login">Giriş Yap</string>
+    <string name="click_to_register">Kayıt olmak için tıkla</string>
+
+    <string name="prompt_email">E-posta</string>
+    <string name="prompt_password">Şifre</string>
+    <string name="action_sign_in">Giriş yap veya kayıt ol</string>
+    <string name="action_sign_in_short">Giriş Yap</string>
+    <string name="welcome">"Hoş Geldiniz!"</string>
+    <string name="invalid_username">Geçerli bir kullanıcı adı değil</string>
+    <string name="invalid_password">Şifre 5 karakterden uzun olmalı</string>
+    <string name="login_failed">"Giriş başarısız"</string>
+    <string name="write_here">Buraya Yazın</string>
+    <string name="welcome_to_appname">AppName\'e Hoş Geldiniz\nHemen deneyin!</string>
+    <string name="default_web_client_id" translatable="false">719331565905-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com</string>
+    <string name="back">Geri</string>
+    <string name="how_can_i_help_you_today">Bugün size nasıl yardımcı olabilirim?</string>
+    <string name="send">Gönder</string>
+    <string name="type_a_message">Bir mesaj yazın...</string>
+    <string name="social_login">Sosyal Medya ile Giriş</string>
+    <string name="settings">Ayarlar</string>
+    <string name="recent_chats">Son Sohbetler</string>
+    <string name="start_new_chat">Yeni Sohbet Başlat</string>
+    <string name="already_have_an_account_login">Zaten bir hesabınız var mı? Giriş Yapın</string>
+    <string name="language_turkish_english">Dil (İngilizce/Türkçe)</string>
+    <string name="delete_all_chats">Tüm Sohbetleri Sil</string>
+    <string name="dark_theme">Karanlık Tema</string>
+    <string name="logout">Çıkış Yap</string>
+</resources>

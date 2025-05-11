@@ -2,31 +2,57 @@
     <!-- Base application theme in dark mode. -->
     <style name="Base.Theme.Cmp2004_2" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="background">@drawable/dark_thema</item>
-        <item name="colorPrimary">@color/md_theme_dark_primary</item>
-        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
-        <!-- ... other primary colors for dark ... -->
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorOnPrimary">@color/dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/dark_secondary</item>
+        <item name="colorOnSecondary">@color/dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/dark_tertiary</item>
+        <item name="colorOnTertiary">@color/dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/dark_onTertiaryContainer</item>
+        <item name="colorError">@color/dark_error</item>
+        <item name="colorErrorContainer">@color/dark_errorContainer</item>
+        <item name="colorOnError">@color/dark_onError</item>
+        <item name="colorOnErrorContainer">@color/dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="colorOnBackground">@color/dark_onBackground</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnSurface">@color/dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/dark_inversePrimary</item>
 
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
-        <!-- ... other secondary colors for dark ... -->
+        <!-- Specific Overrides for your app -->
+        <item name="android:windowBackground">@drawable/dark_thema</item>
 
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item> <!-- Or a specific dark status bar color -->
+        <!-- Default text color for text views not on specific surfaces -->
+        <!-- Ensure this has good contrast with your dark_thema gradient -->
+        <item name="android:textColor">@color/dark_onSurfaceVariant</item>
+        <item name="android:textColorHint">@color/my_dark_text_color_secondary</item>
 
-        <!-- Customize your dark theme here. -->
-        <item name="android:windowBackground">@drawable/dark_thema</item> <!-- Your dark background color -->
-        <item name="android:textColor">#C2E69A</item> <!-- Default text color for dark theme -->
-        <item name="buttonStyle">@style/MyButtonStyle.Dark</item> <!-- Custom button style for dark theme -->
-        <!-- Add other attributes like colorSurface, colorOnSurface, etc. -->
+        <!-- Status bar color -->
+        <!-- <item name="android:statusBarColor">@android:color/transparent</item> -->
+        <!-- <item name="android:windowLightStatusBar" tools:targetApi="m">false</item> --> <!-- Icons light/dark -->
+        <item name="android:statusBarColor">@color/dark_surface</item> <!-- Or a color matching your gradient top, or transparent -->
+
+
+        <!-- Optional: If you need specific button styles beyond Material 3 defaults -->
+        <!-- <item name="materialButtonStyle">@style/MyButtonStyle.Dark</item> -->
     </style>
 
     <!-- Theme.Cmp2004_2 in -night will inherit from Base.Theme.Cmp2004_2 in -night -->
+    <!-- No need to redefine Theme.Cmp2004_2 here unless you have specific overrides -->
 
-    <!-- Optional: Custom Button Style for Dark Theme -->
+    <!-- Optional: Custom Button Style for Dark Theme (if needed) -->
     <style name="MyButtonStyle.Dark" parent="Widget.Material3.Button">
-        <item name="android:backgroundTint">@color/my_dark_button_background</item>
+        <item name="backgroundTint">@color/my_dark_button_background</item>
         <item name="android:textColor">@color/my_dark_button_text</item>
     </style>
 </resources>

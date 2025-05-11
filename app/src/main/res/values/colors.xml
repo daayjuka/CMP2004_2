@@ -20,13 +20,108 @@
     <!-- Custom background/text/button colors -->
     <color name="my_light_background">#FFFEF7</color>
     <color name="my_light_text_color">#1C1B1F</color>
-    <color name="my_light_button_background">#E8DEF8</color> <!-- Light button background -->
-    <color name="my_light_button_text">#1D192B</color>      <!-- Light button text -->
 
 
     <color name="my_dark_background">#1C1B1F</color>   <!-- Example: A dark grey -->
     <color name="my_dark_text_color">#E6E1E5</color>    <!-- Light text for dark background -->
-    <color name="my_dark_button_background">#4A4458</color> <!-- Darker button background -->
-    <color name="my_dark_button_text">#E8DEF8</color>      <!-- Lighter button text for dark theme -->
+
+
+
+    <!-- Light Theme Gradient Colors (for reference) -->
+    <!-- android:startColor="#E44242" android:centerColor="#9C27B0" android:endColor="#259E89" -->
+
+    <!-- Dark Theme Gradient Colors (for reference) -->
+    <!-- android:startColor="#712323" android:centerColor="#512888" android:endColor="#1E4D4D" -->
+
+    <!-- LIGHT THEME COLORS -->
+    <!-- Primary: Let's pick the purple from the light gradient as a starting point -->
+    <color name="light_primary">#9C27B0</color> <!-- Purple from light gradient center -->
+    <color name="light_onPrimary">#FFFFFF</color>
+    <color name="light_primaryContainer">#F3DAF9</color> <!-- Lighter shade of primary -->
+    <color name="light_onPrimaryContainer">#3E004B</color>
+
+    <!-- Secondary: Let's pick the teal/green from the light gradient -->
+    <color name="light_secondary">#259E89</color> <!-- Teal from light gradient end -->
+    <color name="light_onSecondary">#FFFFFF</color>
+    <color name="light_secondaryContainer">#AEF1E0</color> <!-- Lighter shade of secondary -->
+    <color name="light_onSecondaryContainer">#00201A</color>
+
+    <!-- Tertiary/Accent (Optional, could be the red or another harmonious color) -->
+    <color name="light_tertiary">#E44242</color> <!-- Red from light gradient start -->
+    <color name="light_onTertiary">#FFFFFF</color>
+    <color name="light_tertiaryContainer">#FFDAD6</color>
+    <color name="light_onTertiaryContainer">#410002</color>
+
+    <!-- General Light Theme Colors -->
+    <color name="light_error">#BA1A1A</color>
+    <color name="light_onError">#FFFFFF</color>
+    <color name="light_errorContainer">#FFDAD6</color>
+    <color name="light_onErrorContainer">#410002</color>
+    <color name="light_background">#FFFBFF</color> <!-- A very light off-white for general surfaces if windowBackground is gradient -->
+    <color name="light_onBackground">#1F1A1C</color>
+    <color name="light_surface">#FFFBFF</color> <!-- For cards, dialogs etc. -->
+    <color name="light_onSurface">#1F1A1C</color>
+    <color name="light_surfaceVariant">#EFDEE4</color> <!-- Slightly different surface -->
+    <color name="light_onSurfaceVariant">#4D4448</color>
+    <color name="light_outline">#7F7478</color>
+    <color name="light_inverseOnSurface">#F8EEF0</color>
+    <color name="light_inverseSurface">#352F31</color>
+    <color name="light_inversePrimary">#EAB0F7</color> <!-- For Snackbar text on dark surface -->
+    <color name="light_shadow">#000000</color>
+    <color name="light_surfaceTint">#9C27B0</color> <!-- Usually same as primary -->
+    <color name="light_outlineVariant">#D1C2C7</color>
+    <color name="light_scrim">#000000</color>
+
+    <!-- Light Theme Custom Button (Example - you might not need these if M3 buttons are fine) -->
+    <color name="my_light_button_background">@color/light_primary</color>
+    <color name="my_light_button_text">@color/light_onPrimary</color>
+    <color name="my_light_text_color_primary">#212121</color> <!-- Darker text for general content on light_surface -->
+    <color name="my_light_text_color_secondary">#757575</color>
+
+
+    <!-- DARK THEME COLORS -->
+    <!-- Primary: From dark gradient -->
+    <color name="dark_primary">#B977CC</color> <!-- Lighter, less saturated purple for dark theme -->
+    <color name="dark_onPrimary">#4A005F</color>
+    <color name="dark_primaryContainer">#641A7F</color> <!-- Darker container -->
+    <color name="dark_onPrimaryContainer">#F3DAF9</color>
+
+    <!-- Secondary: From dark gradient -->
+    <color name="dark_secondary">#6DDCAF</color> <!-- Lighter, less saturated teal for dark theme -->
+    <color name="dark_onSecondary">#00382E</color>
+    <color name="dark_secondaryContainer">#005143</color> <!-- Darker container -->
+    <color name="dark_onSecondaryContainer">#AEF1E0</color>
+
+    <!-- Tertiary/Accent (Optional) -->
+    <color name="dark_tertiary">#D37979</color> <!-- Lighter, less saturated red -->
+    <color name="dark_onTertiary">#5D000B</color>
+    <color name="dark_tertiaryContainer">#930016</color>
+    <color name="dark_onTertiaryContainer">#FFDAD6</color>
+
+    <!-- General Dark Theme Colors -->
+    <color name="dark_error">#FFB4AB</color>
+    <color name="dark_onError">#690005</color>
+    <color name="dark_errorContainer">#93000A</color>
+    <color name="dark_onErrorContainer">#FFDAD6</color>
+    <color name="dark_background">#1F1A1C</color> <!-- Dark color for surfaces if windowBackground is gradient -->
+    <color name="dark_onBackground">#EAE0E2</color>
+    <color name="dark_surface">#1F1A1C</color> <!-- For cards, dialogs etc. -->
+    <color name="dark_onSurface">#EAE0E2</color>
+    <color name="dark_surfaceVariant">#4D4448</color>
+    <color name="dark_onSurfaceVariant">#D1C2C7</color>
+    <color name="dark_outline">#9A8D92</color>
+    <color name="dark_inverseOnSurface">#1F1A1C</color>
+    <color name="dark_inverseSurface">#EAE0E2</color>
+    <color name="dark_inversePrimary">#9C27B0</color>
+    <color name="dark_shadow">#000000</color>
+    <color name="dark_surfaceTint">#B977CC</color> <!-- Usually same as dark_primary -->
+    <color name="dark_outlineVariant">#4D4448</color>
+    <color name="dark_scrim">#000000</color>
+
+    <!-- Dark Theme Custom Button (Example) -->
+    <color name="my_dark_button_background">@color/dark_primaryContainer</color>
+    <color name="my_dark_button_text">@color/dark_onPrimaryContainer</color>
+    <color name="my_dark_text_color_primary">#E0E0E0</color> <!-- Lighter text for general content on dark_surface -->
+    <color name="my_dark_text_color_secondary">#BDBDBD</color>
 
 </resources>

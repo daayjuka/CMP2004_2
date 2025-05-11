@@ -23,7 +23,7 @@
             android:id="@+id/settings_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_manage"
+            android:src="@drawable/setting_icon_black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/settings"/>
     </LinearLayout>
