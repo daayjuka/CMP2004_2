@@ -14,7 +14,7 @@
         <item name="colorOnTertiary">@color/light_onTertiary</item>
         <item name="colorTertiaryContainer">@color/light_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/light_onTertiaryContainer</item>
-        <item name="colorError">@color/light_error</item>
+        <item name="colorError">#351010</item>
         <item name="colorErrorContainer">@color/light_errorContainer</item>
         <item name="colorOnError">@color/light_onError</item>
         <item name="colorOnErrorContainer">@color/light_onErrorContainer</item>
