@@ -30,7 +30,8 @@ import com.yourcompany.cmp2004_2.db.ChatSessionEntity;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-
+import androidx.appcompat.app.AlertDialog; // For confirmation dialog
+import android.content.DialogInterface;    // For confirmation dialog
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ import java.util.Locale;
 import java.util.UUID; // For generating session IDs
 import java.util.concurrent.Executor;
 
-public class MainActivity extends BaseActivity implements ChatSessionAdapter.OnSessionClickListener {
+public class MainActivity extends BaseActivity implements ChatSessionAdapter.OnSessionActionsListener  {
 
     FirebaseAuth auth;
     TextView userDetailsTextView;
@@ -241,5 +242,64 @@ public class MainActivity extends BaseActivity implements ChatSessionAdapter.OnS
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(languageChangeReceiver);
+    }
+
+    @Override
+    public void onDeleteSessionClick(ChatSessionEntity session) {
+        Log.d("MainActivity", "Attempting to delete session: " + session.sessionId);
+
+        // Show a confirmation dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Chat Session")
+                .setMessage("Are you sure you want to delete this chat session and all its messages? This action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    // User confirmed deletion
+                    deleteSessionFromDatabase(session);
+                })
+                .setNegativeButton("Cancel", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void deleteSessionFromDatabase(ChatSessionEntity session) {
+        if (currentUser == null || session == null) {
+            Toast.makeText(this, "Error: Cannot delete session.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+        String sessionId = session.sessionId;
+
+        ListenableFuture<Void> deleteMessagesFuture = chatMessageDao.deleteMessagesForSession(userId, sessionId);
+        Futures.addCallback(deleteMessagesFuture, new FutureCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                Log.d("MainActivity", "Messages deleted for session: " + sessionId);
+                // 2. After messages are deleted, delete the session info itself
+                ListenableFuture<Void> deleteSessionInfoFuture = chatMessageDao.deleteChatSessionInfo(userId, sessionId);
+                Futures.addCallback(deleteSessionInfoFuture, new FutureCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        Log.d("MainActivity", "Session info deleted: " + sessionId);
+                        Toast.makeText(MainActivity.this, "Chat session deleted.", Toast.LENGTH_SHORT).show();
+                        // Refresh the list in the UI
+                        loadChatSessions();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Throwable t) {
+                        Log.e("MainActivity", "Failed to delete session info for: " + sessionId, t);
+                        Toast.makeText(MainActivity.this, "Error deleting session info.", Toast.LENGTH_SHORT).show();
+                    }
+                }, mainExecutor); // Or a background executor
+            }
+
+            @Override
+            public void onFailure(@NonNull Throwable t) {
+                Log.e("MainActivity", "Failed to delete messages for session: " + sessionId, t);
+                Toast.makeText(MainActivity.this, "Error deleting session messages.", Toast.LENGTH_SHORT).show();
+            }
+        }, ContextCompat.getMainExecutor(this));
+
     }
 }
